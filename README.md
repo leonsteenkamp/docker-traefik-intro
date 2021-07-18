@@ -55,7 +55,7 @@ comfortable with the changes you are making to your setup.
 Log into AWS with a user that can create IAM users and policies. Under IAM 
 Policies create a policy using the JSON tab and use the policy in JSON format 
 from the second link below. The policy editor might complain about the empty 
-_Sid_ values. Add your own _Sid_ if you want.
+_Sid_ values. Add your own _Sid_ if you want. The policy is also shown below.
 
 "The Sid (statement ID) is an optional identifier that you provide for the 
 policy statement." - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_sid.html
@@ -107,7 +107,7 @@ dashboard is also exposed.
 
 For my example reverse proxy deployment mostly pointed to services running on 
 external hosts and not services running in other docker containers on a docker 
-network. The _whoami_ container givues you an idea how labels can be used to 
+network. The _whoami_ container gives you an idea how labels can be used to 
 configure Traefik.
 
 It looks like Traefik needs to be restarted when new router rules with new 
@@ -117,7 +117,7 @@ hostnames are added. Otherwise, certificates are not created for the new hosts.
 Getting the Traefik dynamic configuration to load dynamically when using docker 
 took some trial, error and searching. The trick seems to be mounting a directory 
 and not the file directly and telling Traefik to look at the directory rather 
-than the file. This also covered in the Traefik configuration section. 
+than just the file. This also covered in the Traefik configuration section. 
 
 The created certificates are stored in the _letsencrypt\\_ directory.
 
@@ -161,7 +161,7 @@ These are explained in the documentation and it might take a few reads to fully
 understand. 
 
 Two entry points are defined for _web_ and _websecure_ that handle HTTP traffic 
-port 80 and 443. I added redirection from the _web_ to _websecure_ entry points. 
+on port 80 and 443. I added redirection from the _web_ to _websecure_ entry points. 
 
 Logging is set to debug, so you might want to change this. Logging can be seen 
 when _docker-compose_ is run without the _-d_ (detached) option. 
@@ -200,15 +200,15 @@ Services can specify more than one host which allows for load balancing by
 Traefik. If there is only one host, then you only have to specifiy one host.
 
 ## Routers
-The _routers_ join the entry points to services while _middlewares_ do any 
+_Routers_ join entry points to services while _middlewares_ do any 
 modifications that might be needed in between. 
 
-Two routers listen on the _websecure_ entry point with rules for two different 
-subdomains. Traffic for each subdomain is forwarded to a different service and 
-both routers make use of the _certResolver_ specified in the Traefik static 
-configuration.
+In the example two routers listen on the _websecure_ entry point with rules 
+for two different subdomains. Traffic for each subdomain is forwarded to a 
+different service and both routers make use of the _certResolver_ specified in 
+the Traefik static configuration.
 
-An exmaple of a _middleware_ is shown where a path is added to the request sent 
-to the service (host). In this case the _/admin_ is added - the Pi-hole admin 
+An example of a _middleware_ is shown where a path is added to the request sent 
+to the service (host). In this case _/admin_ is added - the Pi-hole admin 
 panel is located at this path. The Pi-hole admin panel can be accessed from 
-_hole.example.co.za_ without the _/admin_ path at the end.
+_hole.example.co.za_ without needing the _/admin_ path at the end.
