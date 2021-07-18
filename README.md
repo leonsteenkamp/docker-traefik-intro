@@ -197,7 +197,8 @@ certificates then this exercise would not be needed. The assumption is that the
 network and hosts behind the reverse proxy is trusted.
 
 Services can specify more than one host which allows for load balancing by 
-Traefik. If there is only one host, then you only have to specifiy one host.
+Traefik. If there is only one host, then you only have to specifiy one host. 
+Replace the example IP addresses with addresses to your services.
 
 ## Routers
 _Routers_ join entry points to services while _middlewares_ do any 
