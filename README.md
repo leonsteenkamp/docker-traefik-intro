@@ -57,7 +57,8 @@ Policies create a policy using the JSON tab and use the policy in JSON format
 from the second link below. The policy editor might complain about the empty 
 _Sid_ values. Add your own _Sid_ if you want.
 
-"The Sid (statement ID) is an optional identifier that you provide for the policy statement." - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_sid.html
+"The Sid (statement ID) is an optional identifier that you provide for the 
+policy statement." - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_sid.html
 
 ```JSON
 {
@@ -88,7 +89,7 @@ _Sid_ values. Add your own _Sid_ if you want.
 
 Create an IAM user with programmatic access and use "attach existing policies 
 directly" to add the policy created above (you might need use the filter to 
-find your policy ). Make a note of the user's access key and access key ID.
+find your policy). Make a note of the user's access key and access key ID.
 
 While in the AWS management console make a note of the Route53 _Hosted zone ID_ 
 the domain is under. The key and two IDs are used in the Traefik configuration.
@@ -110,7 +111,7 @@ network. The _whoami_ container givues you an idea how labels can be used to
 configure Traefik.
 
 It looks like Traefik needs to be restarted when new router rules with new 
-hostnames are added. Otherwise certificates are not created for the new hosts.
+hostnames are added. Otherwise, certificates are not created for the new hosts.
 
 ### Volumes
 Getting the Traefik dynamic configuration to load dynamically when using docker 
@@ -162,14 +163,14 @@ understand.
 Two entry points are defined for _web_ and _websecure_ that handle HTTP traffic 
 port 80 and 443. I added redirection from the _web_ to _websecure_ entry points. 
 
-Logging is set to debug, so you might want to changes this. Logging can be seen 
+Logging is set to debug, so you might want to change this. Logging can be seen 
 when _docker-compose_ is run without the _-d_ (detached) option. 
 
 The other important section to notice is _certificatesResolvers_. This is where 
-Let's Encrypt comes in. Add an valid email address to this section.
+Let's Encrypt comes in. Add a valid email address to this section.
 
 The docker provider allows for label based dynamic configuration when using 
-docker contrainers. The file provider allows for file based dynamic 
+docker contrainers. The file provider allows for file-based dynamic 
 configuration. 
 
 **Note**: When using docker is looks like specifiying a directory to watch 
@@ -189,7 +190,7 @@ Two example services are specified, one that forwards traffic to a specific port
 and the other that defaults to port 80. 
 
 A _serversTransport_ is specified that skips TLS verification to these hosts, 
-otherwise a browser warning is generated. This is a bit of a chicken and egg 
+otherwise, a browser warning is generated. This is a bit of a chicken and egg 
 problem if not skipping the check. One of the reasons for running the reverse 
 proxy is to handle TLS certificates, if these hosts could provide valid 
 certificates then this exercise would not be needed. The assumption is that the 
@@ -200,7 +201,7 @@ Traefik. If there is only one host, then you only have to specifiy one host.
 
 ## Routers
 The _routers_ join the entry points to services while _middlewares_ do any 
-modifications that might be needed inbetween. 
+modifications that might be needed in between. 
 
 Two routers listen on the _websecure_ entry point with rules for two different 
 subdomains. Traffic for each subdomain is forwarded to a different service and 
