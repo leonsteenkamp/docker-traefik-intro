@@ -1,0 +1,7 @@
+# Some file to ignore other to include
+
+aws_hosted_zone_id.secret
+aws_shared_credentials.secret
+
+acme.json
+

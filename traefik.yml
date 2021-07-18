@@ -1,0 +1,64 @@
+################################################################
+# Configuration sample for Traefik v2.
+################################################################
+global:
+  checkNewVersion: true
+
+# EntryPoints definition
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: :443
+
+# Traefik logs
+# Enabled by default and log to stdout
+log:
+  # Log level
+  # Default: "ERROR"
+  level: DEBUG
+  # Format is either "json" or "common".
+  # Default: "common"
+  # format: json
+
+# Enable API and dashboard
+api:
+  # Enable the API in insecure mode
+  # Default: false
+  insecure: true
+  # Enabled Dashboard
+  # Default: true
+#  dashboard: false
+
+# Enable ping
+ping:
+  # Name of the related entry point
+  # Default: "traefik"
+  entryPoint: traefik
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: add-an-email-address-here
+      storage: /letsencrypt/acme.json
+      dnsChallenge:
+        provider: route53
+        delayBeforeCheck: 0
+
+################################################################
+# Docker configuration backend
+################################################################
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
+  file:
+    watch: true
+    directory: /config

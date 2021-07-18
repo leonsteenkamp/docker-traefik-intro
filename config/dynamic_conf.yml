@@ -1,0 +1,45 @@
+# Dynamic configuration
+http:
+  # Routers
+  routers:
+    routerTest:
+      service: serviceTest
+      rule: Host(`test.example.co.za`)
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: myresolver
+    routerPihole:
+      service: servicePihole
+      middlewares:
+        - addPathPihole
+      rule: Host(`hole.example.co.za`)
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: myresolver
+
+  # Middlewares
+  middlewares:
+    addPathPihole:
+      addPrefix:
+        prefix: "/admin"
+
+  # Transports
+  serversTransports:
+      mytransport:
+        insecureSkipVerify: true
+
+  # Servers
+  services:
+    serviceTest:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.10:8000/
+          - url: http://192.168.1.11:8000/
+        serversTransport: mytransport
+    servicePihole:
+      loadBalancer:
+        servers:
+          - url: http://192.168.1.15/
+        serversTransport: mytransport

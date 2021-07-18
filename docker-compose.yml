@@ -1,0 +1,41 @@
+version: '3'
+
+secrets:
+  aws_shared_credentials:
+    file: $PWD/secrets/aws_shared_credentials.secret
+  aws_hosted_zone_id:
+    file: $PWD/secrets/aws_hosted_zone_id.secret
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.4
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The TLS port
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    secrets:
+      - aws_shared_credentials
+      - aws_hosted_zone_id
+    environment:
+      - AWS_SHARED_CREDENTIALS_FILE=/run/secrets/aws_shared_credentials
+      - AWS_HOSTED_ZONE_ID_FILE=/run/secrets/aws_hosted_zone_id
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Traefik static configuration
+      - $PWD/traefik.yml:/etc/traefik/traefik.yml
+      # Traefik dynamic configuration
+      - $PWD/config:/config/
+      # Volume to store certificates
+      - $PWD/letsencrypt:/letsencrypt
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.example.co.za`)"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
