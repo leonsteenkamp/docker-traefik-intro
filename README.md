@@ -185,7 +185,7 @@ The dynamic configuration is reloaded while Traefik is running without having
 to restart Traefik (altough it might be needed to restart Traefik if a new host 
 is added to force certificate generation if a certificate does not exist).
 
-## Services
+### Services
 Two example services are specified, one that forwards traffic to a specific port 
 and the other that defaults to port 80. 
 
@@ -200,7 +200,7 @@ Services can specify more than one host which allows for load balancing by
 Traefik. If there is only one host, then you only have to specifiy one host. 
 Replace the example IP addresses with addresses to your services.
 
-## Routers
+### Routers
 _Routers_ join entry points to services while _middlewares_ do any 
 modifications that might be needed in between. 
 
