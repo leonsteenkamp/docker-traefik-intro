@@ -213,3 +213,27 @@ An example of a _middleware_ is shown where a path is added to the request sent
 to the service (host). In this case _/admin_ is added - the Pi-hole admin 
 panel is located at this path. The Pi-hole admin panel can be accessed from 
 _hole.example.co.za_ without needing the _/admin_ path at the end.
+
+## Traefik and labels in Docker
+**Update 2023-03-11**
+
+This example makes use of static and dynamic configuration files for Traefik 
+through the Traefik file provider. The example also makes use of the Docker 
+provider in Traefik, which monitors the Docker daemon for labels specified in 
+containers. 
+
+In the documentation on the Traefik site the Docker daemon (_/var/run/docker.sock_) 
+is mounted to the Traefik container. This is probably fine on your home or internal 
+networks, but might need some further evaluation if your Traefik container is 
+going to be exposed directly to the Internet. This is because it is considered 
+a security risk to expose your Docker daemon directly to a container.
+
+Some links for further reading are below, including where this is briefly discussed 
+in the Traefik documentation:
+- Hacker News https://news.ycombinator.com/item?id=17983623
+- Exposing Docker socket to Traefik container is a serious security risk · Issue #4174 · traefik/traefik https://github.com/traefik/traefik/issues/4174
+- Traefik Docker Documentation - Traefik https://doc.traefik.io/traefik/providers/docker/#docker-api-access
+
+A workaround that I like is to use only configuration files and leaving the Docker 
+provider alone. For my foreseeable use cases this should work just fine and it allows 
+you to avoid sharing your Docker daemon with a container.
